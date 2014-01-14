@@ -231,6 +231,6 @@ define(function (require, exports, module) {
 
     var menu = Menus.getMenu(Menus.AppMenuBar.VIEW_MENU);
     menu.addMenuDivider();
-    menu.addMenuItem(COMMAND_ID, [{'key': 'Ctrl-Shift-P'}]);
+    menu.addMenuItem(COMMAND_ID, [{'key': 'Ctrl-Shift-F'}]);
 
 });
