@@ -3,8 +3,8 @@
 
 /** Python flake8 Extension
     Enables the flake8 lint to python documents
-    Based on brackets-todo extension
-    Author: Tiago Natel de Moura
+    Based on brackets-todo and brackets-pep8 extension
+    Author: Marco Ceppi
 */
 define(function (require, exports, module) {
     'use strict';
@@ -45,7 +45,7 @@ define(function (require, exports, module) {
     // Initialize PreferenceStorage.
     var preferences = PreferencesManager.getPreferenceStorage(module, DefaultPreferences);
 
-    function getPEP8Binary() {
+    function getFLAKE8Binary() {
         if (preferences.getValue("flake8IsInSystemPath")) {
             return "flake8";
         } else {
@@ -56,8 +56,8 @@ define(function (require, exports, module) {
     function _flake8(document) {
         var currentDoc = document;
         var currentFile = currentDoc.file.fullPath;
-
-        nodeConnection.domains.flake8.flake8(getPEP8Binary(),
+        console.log(nodeConnection.domains, nodeConnection.domains.flake8);
+        nodeConnection.domains.flake8.flake8(getFLAKE8Binary(),
                                          currentFile)
             .fail(function (err) {
                 console.log("[brackets-flake8] error running file: " + currentFile + " message: " + err.toString());
@@ -71,12 +71,12 @@ define(function (require, exports, module) {
             });
     }
 
-    function showPEP8() {
+    function showFLAKE8() {
         Resizer.show($flake8Panel);
         $flake8Icon.addClass("active");
     }
 
-    function hidePEP8() {
+    function hideFLAKE8() {
         Resizer.hide($flake8Panel);
         $flake8Icon.removeClass("active");
     }
@@ -85,7 +85,7 @@ define(function (require, exports, module) {
         return document.language.getId() === "python";
     }
 
-    function denyPEP8Message() {
+    function denyFLAKE8Message() {
         var dlg = Dialogs.showModalDialog(
             Dialogs.DIALOG_ID_ERROR,
             "FLAKE8 Error",
@@ -93,13 +93,13 @@ define(function (require, exports, module) {
         );
     }
 
-    function enablePEP8(enable) {
+    function enableFLAKE8(enable) {
         CommandManager.get(COMMAND_ID).setChecked(enable);
 
         if (enable) {
-            showPEP8();
+            showFLAKE8();
         } else {
-            hidePEP8();
+            hideFLAKE8();
             return;
         }
 
@@ -108,9 +108,9 @@ define(function (require, exports, module) {
 
     function flake8() {
         if (checkPython(DocumentManager.getCurrentDocument())) {
-            return enablePEP8(CommandManager.get(COMMAND_ID).getChecked() !== true);
+            return enableFLAKE8(CommandManager.get(COMMAND_ID).getChecked() !== true);
         } else {
-            denyPEP8Message();
+            denyFLAKE8Message();
         }
     }
 
@@ -136,7 +136,7 @@ define(function (require, exports, module) {
             return connectionPromise;
         }
 
-        function loadNodePEP8Exec() {
+        function loadNodeFLAKE8Exec() {
             var path = ExtensionUtils.getModulePath(module, "NodeFLAKE8Exec");
             var loadPromise = nodeConnection.loadDomains([path], true);
             loadPromise.fail(function () {
@@ -146,7 +146,7 @@ define(function (require, exports, module) {
         }
 
         var flake8HTML = Mustache.render(flake8PanelTemplate, {flake8: "/usr/local/bin/flake8"}),
-            flake8Panel = PanelManager.createBottomPanel('tiago4orion.bracketsPEP8.panel', $(flake8HTML), 100);
+            flake8Panel = PanelManager.createBottomPanel('tiago4orion.bracketsFLAKE8.panel', $(flake8HTML), 100);
 
         // Cache todo panel.
         $flake8Panel = $('#brackets-flake8');
@@ -158,7 +158,7 @@ define(function (require, exports, module) {
             // Set focus on editor.
             EditorManager.focusEditor();
         }).on('click', '.close', function () {
-            enablePEP8(false);
+            enableFLAKE8(false);
         });
 
         var $documentManager = $(DocumentManager);
@@ -171,14 +171,14 @@ define(function (require, exports, module) {
         }).on('currentDocumentChange', function (event) {
             var doc = DocumentManager.getCurrentDocument();
             if (!doc || !doc.language) {
-                hidePEP8();
+                hideFLAKE8();
             }
             
             if (CommandManager.get(COMMAND_ID).getChecked() === true) {
                 if (doc && doc.language && doc.language.getId() === "python") {
-                    enablePEP8(true);
+                    enableFLAKE8(true);
                 } else {
-                    hidePEP8();
+                    hideFLAKE8();
                 }
             }
         });
@@ -224,7 +224,7 @@ define(function (require, exports, module) {
                 );
         });
 
-        chain(connect, loadNodePEP8Exec);
+        chain(connect, loadNodeFLAKE8Exec);
     });
 
     CommandManager.register(MENU_NAME, COMMAND_ID, flake8);
