@@ -1,0 +1,23 @@
+.brackets-flake8 table {
+        width: 100%;
+        position: relative;
+}
+
+/*--- TABLE ROWS ---*/
+.brackets-flake8 .message {
+    text-align: left;
+    width: 90%;
+}
+
+.brackets-flake8 td {
+    width: auto;
+}
+
+/*--- TOOLBAR ---*/
+#brackets-flake8-icon {
+        background-image: url( 'images/flake8-icon.svg' );
+}
+
+#brackets-flake8-icon.active {
+        background-position: 0 -24px;
+}

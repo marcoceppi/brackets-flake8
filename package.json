@@ -1,0 +1,12 @@
+{
+    "name": "brackets-flake8",
+    "title": "Python flake8 Lint",
+    "description": "This extension enables the flake8 style guide checker for python code. Required pep8 (sudo pip install pep8).",
+    "homepage": "https://github.com/marcoceppi/brackets-flake8",
+    "version": "0.0.1",
+    "author": "Marco Ceppi",
+    "license": "MIT",
+    "engines": {
+        "brackets": ">=0.20.0"
+    }
+}
