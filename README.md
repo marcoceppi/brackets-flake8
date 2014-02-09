@@ -25,3 +25,7 @@ This extension add flake8 style guide check for python projects.
 After installed, simple use <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd> or View->FLAKE8 Lint on your python code.
 
 Modify configuration by editing the following file `~/.config/Brackets/extensions/user/brackets-flake8/defaultPreferences.js`
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/marcoceppi/brackets-flake8/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
